@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   infra:
@@ -13,14 +13,20 @@ jobs:
     defaults:
       run:
         working-directory: ./packages/infra
+
     steps:
       - uses: actions/checkout@v2
+
       - name: Use Node.js 14
         uses: actions/setup-node@v2
         with:
           node-version: '14'
           cache: 'yarn'
+
       - run: yarn install
+
+      - run: yarn build
+
       - run: yarn test
 
   migrator:
@@ -42,11 +48,34 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+
       - name: Freshen docker
         run: apt-get update
+
       - name: Postgres deps
         run: apt-get install -y postgresql-client
+
       - run: bundle install
+
       - name: Test migrations
         run: bundle exec rake db:migrate
 
+  deploy:
+    runs-on: ubuntu-latest
+
+    needs: [migrator, infra]
+
+    steps:
+      - name: Use Node.js 14
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+          cache: 'yarn'
+
+      - run: yarn install
+
+      - run: yarn build
+
+      - run: yarn cdk synth
+
+      - run: yarn cdk deploy
