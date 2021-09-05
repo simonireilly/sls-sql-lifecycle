@@ -1,0 +1,11 @@
+require 'standalone_migrations'
+require 'strong_migrations'
+# require 'activerecord'
+
+ActiveRecord::Base.schema_format = :sql
+StandaloneMigrations::Tasks.load_tasks
+
+StrongMigrations.lock_timeout = 10.seconds
+StrongMigrations.statement_timeout = 1.hour
+StrongMigrations.auto_analyze = true
+

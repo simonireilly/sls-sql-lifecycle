@@ -1,0 +1,9 @@
+development:
+  host: postgres
+  port: 5432
+  database: development
+  username: postgres
+  password: postgres
+  encoding: utf-8
+  adapter: postgresql
+  pool: 5
