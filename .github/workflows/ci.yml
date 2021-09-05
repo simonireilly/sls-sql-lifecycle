@@ -70,6 +70,8 @@ jobs:
         working-directory: ./packages/infra
 
     steps:
+      - uses: actions/checkout@v2
+
       - name: Use Node.js 14
         uses: actions/setup-node@v2
         with:
