@@ -1,7 +1,6 @@
-import { Handler } from 'aws-lambda';
+import type { Handler } from 'aws-lambda';
 import * as AWS from 'aws-sdk';
 import Knex from 'knex';
-import { config } from 'process';
 const secretsmanager = new AWS.SecretsManager();
 
 export interface RDSClusterSecret {
