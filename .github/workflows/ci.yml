@@ -65,6 +65,10 @@ jobs:
 
     needs: [migrator, infra]
 
+    defaults:
+      run:
+        working-directory: ./packages/infra
+
     steps:
       - name: Use Node.js 14
         uses: actions/setup-node@v2
@@ -73,8 +77,6 @@ jobs:
           cache: 'yarn'
 
       - run: yarn install
-
-      - run: yarn build
 
       - run: yarn cdk synth
 
