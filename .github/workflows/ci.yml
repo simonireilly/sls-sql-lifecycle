@@ -1,0 +1,37 @@
+name: Node.js CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  infra:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./packages/infra
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 14
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+          cache: 'yarn'
+      - run: yarn install
+      - run: yarn test
+
+  migrator:
+    runs-on: ubuntu-latest
+
+    container: ruby:2.7
+
+    defaults:
+      run:
+        working-directory: ./packages/migrator
+
+    steps:
+      - uses: actions/checkout@v2
+      - run: bundle install

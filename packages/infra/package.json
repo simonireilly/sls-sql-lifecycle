@@ -2,10 +2,11 @@
   "name": "infra",
   "version": "0.1.0",
   "bin": {
-    "infra": "bin/infra.js"
+    "infra": "dist/bin/infra.js"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsc --build",
+    "clean": "tsc --build --clean",
     "watch": "tsc -w",
     "test": "jest",
     "cdk": "cdk"
