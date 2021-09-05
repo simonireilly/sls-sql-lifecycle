@@ -15,6 +15,7 @@ export class InfraStack extends cdk.Stack {
         version: rds.AuroraPostgresEngineVersion.VER_12_6,
       }),
       credentials: rds.Credentials.fromGeneratedSecret('clusteradmin'),
+      defaultDatabaseName: 'postgres',
       instanceProps: {
         vpcSubnets: {
           subnetType: ec2.SubnetType.PRIVATE,
@@ -27,6 +28,18 @@ export class InfraStack extends cdk.Stack {
     const fn = new NodejsFunction(this, 'MyFunction', {
       entry: 'src/index.ts',
       handler: 'handler',
+      bundling: {
+        sourceMap: true,
+        nodeModules: ['knex', 'pg'],
+      },
+      vpc,
+      environment: {
+        RDS_SECRET_ID: String(cluster.secret?.secretName),
+        RDS_DATABASE_NAME: String('postgres'),
+      },
+      timeout: cdk.Duration.seconds(30),
     });
+
+    cluster.secret?.grantRead(fn);
   }
 }

@@ -66,9 +66,28 @@ digraph "Diagram" {
         width = 2,
         height = 2.266,
       ];
+      "InfraStack/MyFunction" [
+        label = " MyFunction",
+        fontsize = 12,
+        image = "/home/simon/code/projects/sls-sql-lifecycle/packages/infra/node_modules/cdk-dia/icons/aws/Service/Arch_Compute/64/Arch_AWS-Lambda_64@5x.png",
+        imagescale = "true",
+        imagepos = "tc",
+        penwidth = "0",
+        shape = "node",
+        fixedsize = "true",
+        labelloc = "b",
+        width = 2,
+        height = 2.266,
+      ];
     }
   }
   "InfraStack/Database" -> "InfraStack/RDSVpc" [
+    dir = "both",
+  ];
+  "InfraStack/MyFunction" -> "InfraStack/Database" [
+    dir = "both",
+  ];
+  "InfraStack/MyFunction" -> "InfraStack/RDSVpc" [
     dir = "both",
   ];
 }
