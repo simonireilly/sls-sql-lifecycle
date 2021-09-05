@@ -1,0 +1,93 @@
+digraph "Diagram" {
+  splines = "ortho";
+  pad = "1.0";
+  nodesep = "0.60";
+  ranksep = "0.75";
+  fontname = "Sans-Serif";
+  fontsize = "15";
+  dpi = "200";
+  rankdir = "BT";
+  compound = "true";
+  fontcolor = "#222222";
+  edge [
+    color = "#D5871488",
+    penwidth = 2,
+    arrowhead = "dot",
+    arrowtail = "dot",
+  ];
+  node [
+    shape = "box",
+    style = "rounded",
+    fixedsize = true,
+    width = 1.7,
+    height = 1.7,
+    labelloc = "c",
+    imagescale = true,
+    fontname = "Sans-Serif",
+    fontsize = 8,
+    margin = 8,
+  ];
+  subgraph "InfraStack" {
+    subgraph "cluster-SubGraph.InfraStack" {
+      graph [
+        label = "InfraStack",
+        labelloc = "b",
+        labeljust = "l",
+        margin = "10",
+        fontsize = "16",
+        penwidth = "2",
+        pencolor = "#888888",
+        style = "filled,rounded",
+        fillcolor = "#e4e4e4",
+      ];
+      "InfraStack/RDSVpc" [
+        label = " RDSVpc",
+        fontsize = 12,
+        image = "/home/simon/code/projects/sls-sql-lifecycle/packages/infra/node_modules/cdk-dia/icons/aws/Service/Arch_Networking-Content/64/Arch_Amazon-Virtual-Private-Cloud_64@5x.png",
+        imagescale = "true",
+        imagepos = "tc",
+        penwidth = "0",
+        shape = "node",
+        fixedsize = "true",
+        labelloc = "b",
+        width = 2,
+        height = 2.266,
+      ];
+      "InfraStack/Database" [
+        label = " Database",
+        fontsize = 12,
+        image = "/home/simon/code/projects/sls-sql-lifecycle/packages/infra/node_modules/cdk-dia/icons/aws/Service/Arch_Database/64/Arch_Amazon-RDS_64@5x.png",
+        imagescale = "true",
+        imagepos = "tc",
+        penwidth = "0",
+        shape = "node",
+        fixedsize = "true",
+        labelloc = "b",
+        width = 2,
+        height = 2.266,
+      ];
+      "InfraStack/MyFunction" [
+        label = " MyFunction",
+        fontsize = 12,
+        image = "/home/simon/code/projects/sls-sql-lifecycle/packages/infra/node_modules/cdk-dia/icons/aws/Service/Arch_Compute/64/Arch_AWS-Lambda_64@5x.png",
+        imagescale = "true",
+        imagepos = "tc",
+        penwidth = "0",
+        shape = "node",
+        fixedsize = "true",
+        labelloc = "b",
+        width = 2,
+        height = 2.266,
+      ];
+    }
+  }
+  "InfraStack/Database" -> "InfraStack/RDSVpc" [
+    dir = "both",
+  ];
+  "InfraStack/MyFunction" -> "InfraStack/Database" [
+    dir = "both",
+  ];
+  "InfraStack/MyFunction" -> "InfraStack/RDSVpc" [
+    dir = "both",
+  ];
+}
