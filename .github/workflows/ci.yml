@@ -1,4 +1,4 @@
-name: Node.js CI
+name: CI
 
 on:
   push:
@@ -32,6 +32,13 @@ jobs:
       run:
         working-directory: ./packages/migrator
 
+    services:
+      postgres:
+        image: postgres
+
     steps:
       - uses: actions/checkout@v2
       - run: bundle install
+      - name: Test migrations
+        run: bundle exec rake db:migrate
+
