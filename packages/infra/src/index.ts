@@ -27,32 +27,37 @@ export const handler: Handler = async () => {
 
   const { dbClusterIdentifier, ...rest } = configuration;
 
-  let dbconfig: RDSClusterSecret = configuration;
+  console.info('Configuring database');
 
   const db = Knex({
     client: 'pg',
     connection: {
       port: configuration.port,
+      userName: configuration.username,
       password: configuration.password,
       host: configuration.host,
       database: configuration.dbname,
     },
-    pool: { min: 0, max: 1 },
+    pool: { min: 1, max: 10 },
+    searchPath: ['public'],
+    log: console,
   });
 
-  const res = db
-    .raw('SELECT 1')
+  console.info('Calling database');
+
+  return db
+    .raw('SELECT 1;')
     .then(() => {
       console.info('PostgreSQL connected');
-      return 'success';
+      return {
+        status: 'success',
+      };
     })
     .catch((e) => {
       console.log('PostgreSQL not connected');
       console.error(e);
-      return 'failure';
+      return {
+        status: 'failure',
+      };
     });
-
-  return {
-    status: res,
-  };
 };
