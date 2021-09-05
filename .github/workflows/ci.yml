@@ -42,6 +42,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      - name: Postgres deps
+        run: sudo apt-get install postgresql-client
       - run: bundle install
       - name: Test migrations
         run: bundle exec rake db:migrate
